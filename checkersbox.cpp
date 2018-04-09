@@ -11,9 +11,9 @@ CheckersBox::CheckersBox(QGraphicsItem *parent):QGraphicsRectItem(parent)
     setRect(0,0,100,100);
     brush.setStyle(Qt::SolidPattern);
     setZValue(-1);
-    //setHasChessPiece(false);
-    setChessPieceColor("NONE");
-    //currentPiece = NULL;
+    setHasCheckersPiece(false);
+    setCheckersPieceColor("NONE");
+    currentPiece = NULL;
 }
 
 
@@ -30,7 +30,7 @@ void CheckersBox::mousePressEvent(QGraphicsSceneMouseEvent *event)
         //if selected
         if(game->pieceToMove){
             //if same team
-            if(this->getChessPieceColor() == game->pieceToMove->getSide())
+            if(this->getCheckersPieceColor() == game->pieceToMove->getSide())
                 return;
             //removing the eaten piece
             QList <CheckersBox *> movLoc = game->pieceToMove->moveLocation();
@@ -50,14 +50,14 @@ void CheckersBox::mousePressEvent(QGraphicsSceneMouseEvent *event)
              //make the first move false applicable for pawn only
              game->pieceToMove->firstMove = false;
              //this is to eat or consume the enemy present inn the movable region
-            if(this->getHasChessPiece()){
+            if(this->getHasCheckersPiece()){
                 this->currentPiece->setIsPlaced(false);
                 this->currentPiece->setCurrentBox(NULL);
                 game->placeInDeadPlace(this->currentPiece);
 
             }
             //changing the new stat and resetting the previous left region
-            game->pieceToMove->getCurrentBox()->setHasChessPiece(false);
+            game->pieceToMove->getCurrentBox()->setHasCheckersPiece(false);
             game->pieceToMove->getCurrentBox()->currentPiece = NULL;
             game->pieceToMove->getCurrentBox()->resetOriginalColor();
             placePiece(game->pieceToMove);
@@ -68,10 +68,12 @@ void CheckersBox::mousePressEvent(QGraphicsSceneMouseEvent *event)
             checkForCheck();
         }
         //Selecting couterpart of the chessPiece
-        else if(this->getHasChessPiece())
+        else if(this->getHasCheckersPiece())
         {
             this->currentPiece->mousePressEvent(event);
         }
+
+        qDebug("paltas");
 }
 
 
@@ -87,7 +89,7 @@ void CheckersBox::placePiece(Piece *piece)
 
     piece->setPos(x()+50- piece->pixmap().width()/2  ,y()+50-piece->pixmap().width()/2);
     piece->setCurrentBox(this);
-    setHasChessPiece(true,piece);
+    setHasCheckersPiece(true,piece);
     currentPiece = piece;
 
 
@@ -106,68 +108,37 @@ void CheckersBox::setOriginalColor(QColor value)
     setColor(originalColor);
 }
 
-bool CheckersBox::getHasChessPiece()
+bool CheckersBox::getHasCheckersPiece()
 {
     return hasChessPiece;
 }
 
-void CheckersBox::setHasChessPiece(bool value, Piece *piece)
+void CheckersBox::setHasCheckersPiece(bool value, Piece *piece)
 {
     hasChessPiece = value;
     if(value)
-        setChessPieceColor(piece->getSide());
+        setCheckersPieceColor(piece->getSide());
     else
-        setChessPieceColor("NONE");
+        setCheckersPieceColor("NONE");
 }
-/*
+
 void CheckersBox::checkForCheck()
 {
     int c = 0;
-    QList <ChessPiece *> pList = game->alivePiece;
-    for(size_t i = 0,n=pList.size(); i < n; i++ ) {
+    QList <Piece *> pList = game->alivePiece;
+    game->check->setVisible(false);
+    for(size_t i = 0,n=pList.size(); i < n; i++ )
+    pList[i]->getCurrentBox()->resetOriginalColor();
 
-        King * p = dynamic_cast<King *> (pList[i]);
-        if(p){
-            continue;
-        }
-        pList[i]->moves();
-        pList[i]->decolor();
-        QList <ChessBox *> bList = pList[i]->moveLocation();
-        for(size_t j = 0,n = bList.size(); j < n; j ++) {
-            King * p = dynamic_cast<King *> (bList[j]->currentPiece);
-            if(p) {
-                if(p->getSide() == pList[i]->getSide())
-                    continue;
-                bList[j]->setColor(Qt::blue);
-                pList[i]->getCurrentBox()->setColor(Qt::darkRed);
-                if(!game->check->isVisible())
-                    game->check->setVisible(true);
-                else{
-                    bList[j]->resetOriginalColor();
-                    pList[i]->getCurrentBox()->resetOriginalColor();
-                    game->gameOver();
-                }
-                c++;
-
-            }
-        }
-
-
-    }
-    if(!c){
-        game->check->setVisible(false);
-        for(size_t i = 0,n=pList.size(); i < n; i++ )
-            pList[i]->getCurrentBox()->resetOriginalColor();
-    }
 }
-*/
 
-QString CheckersBox::getChessPieceColor()
+
+QString CheckersBox::getCheckersPieceColor()
 {
     return chessPieceColor;
 }
 
-void CheckersBox::setChessPieceColor(QString value)
+void CheckersBox::setCheckersPieceColor(QString value)
 {
     chessPieceColor = value;
 }

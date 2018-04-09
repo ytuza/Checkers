@@ -18,22 +18,23 @@ public:
 
     QString getSide() ;
     void setSide( QString value);
-    virtual void setImage() = 0;
+    void setImage();
 
     bool getIsPlaced() ;
     void setIsPlaced(bool value);
 
     QList <CheckersBox *> moveLocation();
-    virtual void moves() = 0;
+    void moves();
     void decolor();
 
-    bool firstMove;
 
-    //bool boxSetting(ChessBox *box);
+    bool firstMove;
+    bool isPlaced;
+    bool boxSetting(CheckersBox *box);
 protected:
     CheckersBox *currentBox;
     QString side;
-    bool isPlaced;
+
     QList <CheckersBox *> location;
 
 };

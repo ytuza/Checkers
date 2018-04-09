@@ -9,6 +9,7 @@ Piece::Piece(QString team, QGraphicsItem *parent):QGraphicsPixmapItem(parent)
     side = team;
     isPlaced = true;
     firstMove = true;
+    setImage();
 }
 
 CheckersBox *Piece::getCurrentBox()
@@ -81,15 +82,93 @@ void Piece::decolor()
          location[i]->resetOriginalColor();
     }
 }
-/*
-bool Piece::boxSetting(ChessBox *box)
+
+void Piece::setImage()
 {
-    if(box->getHasChessPiece()) {
-        King *q = dynamic_cast<King*>(location.last()->currentPiece);
-        if(q){
-            box->setColor(Qt::blue);
+    if(side == "WHITE")
+        setPixmap(QPixmap(":/images/white.png"));
+    else
+        setPixmap(QPixmap(":/images/black.png"));
+}
+
+void Piece::moves()
+{
+    location.clear();
+    int row = this->getCurrentBox()->rowLoc;
+    int col = this->getCurrentBox()->colLoc;
+    QString team = this->getSide();
+    //For upper Left
+
+     for(int i = row-1,j = col-1; i >= 0 && j >=0; i--,j--) {
+       if(game->collection[i][j]->getCheckersPieceColor() == team ) {
+           break;
+
+       }
+       else
+       {
+           location.append(game->collection[i][j]);
+           if(boxSetting(location.last()) ){
+               break;
+           }
+       }
+    }
+
+     //For upper right
+
+      for(int i = row-1,j = col+1; i >= 0 && j <= 7; i--,j++) {
+        if(game->collection[i][j]->getCheckersPieceColor() == team ) {
+            break;
+
         }
         else
+        {
+            location.append(game->collection[i][j]);
+            if(boxSetting(location.last())){
+                break;
+            }
+        }
+     }
+
+      //For downward right
+
+       for(int i = row+1,j = col+1; i <= 7 && j <= 7; i++,j++) {
+         if(game->collection[i][j]->getCheckersPieceColor() == team ) {
+             break;
+
+         }
+         else
+         {
+             location.append(game->collection[i][j]);
+             if(boxSetting(location.last())){
+                 break;
+             }
+         }
+      }
+
+       //For downward left
+
+        for(int i = row+1,j = col-1; i <= 7 && j >= 0; i++,j--) {
+          if(game->collection[i][j]->getCheckersPieceColor() == team ) {
+              break;
+
+          }
+          else
+          {
+              location.append(game->collection[i][j]);
+              if(boxSetting(location.last())){
+                  break;
+              }
+
+          }
+       }
+
+}
+
+
+
+bool Piece::boxSetting(CheckersBox *box)
+{
+    if(box->getHasCheckersPiece()) {
             box->setColor(Qt::red);
         return true;
     }
@@ -97,4 +176,4 @@ bool Piece::boxSetting(ChessBox *box)
         location.last()->setColor(Qt::darkRed);
     return false;
 }
-*/
+

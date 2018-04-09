@@ -19,16 +19,16 @@ public:
     void placePiece(Piece *piece);
 
 
-    bool getHasChessPiece();
-    void setHasChessPiece(bool value,Piece *piece = 0);
+    bool getHasCheckersPiece();
+    void setHasCheckersPiece(bool value,Piece *piece = 0);
 
-    //void checkForCheck();
+    void checkForCheck();
 
     void setOriginalColor(QColor value);
     void resetOriginalColor();
 
-    QString getChessPieceColor() ;
-    void setChessPieceColor(QString value);
+    QString getCheckersPieceColor() ;
+    void setCheckersPieceColor(QString value);
 
 
     int rowLoc;

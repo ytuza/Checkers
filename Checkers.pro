@@ -28,10 +28,15 @@ SOURCES += \
     game.cpp \
     checkersbox.cpp \
     piece.cpp \
-    board.cpp
+    board.cpp \
+    button.cpp
 
 HEADERS += \
     game.h \
     checkersbox.h \
     piece.h \
-    board.h
+    board.h \
+    button.h
+
+RESOURCES += \
+    resource.qrc

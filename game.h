@@ -2,7 +2,7 @@
 #define GAME_H
 #include <QGraphicsView>
 #include <QGraphicsScene>
-//#include <chessboard.h>
+#include <board.h>
 #include "piece.h"
 class Game:public QGraphicsView
 {
@@ -12,13 +12,16 @@ public:
     Game(QWidget *parent = 0);
 
     //public Methods
-    /*
+
     void drawDeadHolder(int x, int y, QColor color);
-    void drawChessBoard();
+
     void displayDeadWhite();
     void displayDeadBlack();
-    void placeInDeadPlace(ChessPiece *piece);
-*/
+
+    void drawCheckersBoard();
+
+    void placeInDeadPlace(Piece *piece);
+
     //Scene Related
     void addToScene(QGraphicsItem *item);
     void removeFromScene(QGraphicsItem *item);
@@ -32,23 +35,22 @@ public:
 
 
 
-    //ChessBox *collection[8][8];
+    CheckersBox *collection[8][8];
     QGraphicsTextItem *check;
-    //QList <ChessPiece *> alivePiece;
-    /*
-    void displayMainMenu();
+    QList <Piece *> alivePiece;
 
+    void displayMainMenu();
     void gameOver();
     void removeAll();
 public slots:
-    void start();*/
+    void start();
 private:
     QGraphicsScene *gameScene;
-    //QList <ChessPiece *> whiteDead;
-    //QList <ChessPiece *> blackDead;
+    QList <Piece *> whiteDead;
+    QList <Piece *> blackDead;
     QGraphicsRectItem * deadHolder;
     QString turn;
-    //ChessBoard *chess;
+    Board *checkers;
     QList <QGraphicsItem *> listG;
     QGraphicsTextItem * turnDisplay;
 
