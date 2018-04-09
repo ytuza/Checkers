@@ -25,7 +25,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-    game.cpp
+    game.cpp \
+    checkersbox.cpp \
+    piece.cpp \
+    board.cpp
 
 HEADERS += \
-    game.h
+    game.h \
+    checkersbox.h \
+    piece.h \
+    board.h
