@@ -36,6 +36,7 @@ public:
 
 
     CheckersBox *collection[8][8];
+
     QGraphicsTextItem *check;
     QList <Piece *> alivePiece;
 
@@ -55,6 +56,12 @@ private:
     QGraphicsTextItem * turnDisplay;
 
 
+};
+
+enum class Player {
+  player0 = 0,
+  player1 = 1,
+  nothing = 2
 };
 
 #endif // GAME_H

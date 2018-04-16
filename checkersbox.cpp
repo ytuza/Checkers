@@ -20,7 +20,7 @@ CheckersBox::CheckersBox(QGraphicsItem *parent):QGraphicsRectItem(parent)
 void CheckersBox::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
       //  qDebug() << getChessPieceColor();
-        //Deselecting counter part of ChessPiece
+        //Deselecting counter part of CheckersPiece
         if(currentPiece == game->pieceToMove && currentPiece){
 
             currentPiece->mousePressEvent(event);
@@ -50,10 +50,19 @@ void CheckersBox::mousePressEvent(QGraphicsSceneMouseEvent *event)
              //make the first move false applicable for pawn only
              game->pieceToMove->firstMove = false;
              //this is to eat or consume the enemy present inn the movable region
-            if(this->getHasCheckersPiece()){
-                this->currentPiece->setIsPlaced(false);
-                this->currentPiece->setCurrentBox(NULL);
-                game->placeInDeadPlace(this->currentPiece);
+
+             int row = (game->pieceToMove)->getCurrentBox()->rowLoc;
+             int col = (game->pieceToMove)->getCurrentBox()->colLoc;
+
+            if((row+(this->rowLoc)) % 2 == 0 && (col+(this->colLoc)) % 2 == 0){
+                int trow = (row+(this->rowLoc))/2;
+                int tcol = (col+(this->colLoc))/2;
+                game->collection[trow][tcol]->currentPiece->setIsPlaced(false);
+                game->collection[trow][tcol]->currentPiece->setCurrentBox(NULL);
+                game->placeInDeadPlace(game->collection[trow][tcol]->currentPiece);
+
+                game->collection[trow][tcol]->currentPiece=NULL;
+                game->collection[trow][tcol]->setHasCheckersPiece(false);
 
             }
             //changing the new stat and resetting the previous left region
@@ -73,7 +82,7 @@ void CheckersBox::mousePressEvent(QGraphicsSceneMouseEvent *event)
             this->currentPiece->mousePressEvent(event);
         }
 
-        qDebug("paltas");
+        //qDebug("paltas");
 }
 
 

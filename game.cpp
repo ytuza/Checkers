@@ -142,7 +142,7 @@ void Game::start()
 
 void Game::gameOver()
 {
-    //removeAll();
+    removeAll();
     setTurn("WHITE");
     alivePiece.clear();
     checkers->reset();
@@ -181,7 +181,7 @@ void Game::displayMainMenu()
     addToScene(titleText);
     listG.append(titleText);
     //create Button
-    Button * playButton = new Button("Play 2 v 2");
+    Button * playButton = new Button("Play");
     int pxPos = width()/2 - playButton->boundingRect().width()/2;
     int pyPos = 300;
     playButton->setPos(pxPos,pyPos);

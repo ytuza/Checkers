@@ -30,7 +30,6 @@ public:
     QString getCheckersPieceColor() ;
     void setCheckersPieceColor(QString value);
 
-
     int rowLoc;
     int colLoc;
 

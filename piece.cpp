@@ -37,7 +37,7 @@ void Piece::mousePressEvent(QGraphicsSceneMouseEvent *event)
         game->pieceToMove->getCurrentBox()->setColor(Qt::red);
         game->pieceToMove->moves();
     }
-    //Consuming counterPart of the CHessBox
+    //Consuming counterPart of the CHeckersBox
     else if(this->getSide() != game->pieceToMove->getSide()){
         this->getCurrentBox()->mousePressEvent(event);
     }
@@ -97,70 +97,49 @@ void Piece::moves()
     int row = this->getCurrentBox()->rowLoc;
     int col = this->getCurrentBox()->colLoc;
     QString team = this->getSide();
-    //For upper Left
 
-     for(int i = row-1,j = col-1; i >= 0 && j >=0; i--,j--) {
-       if(game->collection[i][j]->getCheckersPieceColor() == team ) {
-           break;
 
-       }
-       else
-       {
-           location.append(game->collection[i][j]);
-           if(boxSetting(location.last()) ){
-               break;
-           }
-       }
-    }
+    if(side == "WHITE"){
 
-     //For upper right
-
-      for(int i = row-1,j = col+1; i >= 0 && j <= 7; i--,j++) {
-        if(game->collection[i][j]->getCheckersPieceColor() == team ) {
-            break;
-
+        if(col > 1 && row > 1 && game->collection[row-1][col-1]->getCheckersPieceColor() == "BLACK" && (!game->collection[row-2][col-2]->getHasCheckersPiece())) {
+            location.append(game->collection[row-2][col-2]);
+            boxSetting(location.last());
         }
-        else
-        {
-            location.append(game->collection[i][j]);
-            if(boxSetting(location.last())){
-                break;
-            }
+        if(col < 6 && row > 1 && game->collection[row-1][col+1]->getCheckersPieceColor() == "BLACK" && (!game->collection[row-2][col+2]->getHasCheckersPiece())) {
+            location.append(game->collection[row-2][col+2]);
+            boxSetting(location.last());
         }
-     }
+        if(col > 0 && row > 0 && (!game->collection[row-1][col-1]->getHasCheckersPiece())) {
+            location.append(game->collection[row-1][col-1]);
+            boxSetting(location.last());
+        }
+        if(col < 7 && row > 0 && (!game->collection[row-1][col+1]->getHasCheckersPiece())) {
+            location.append(game->collection[row-1][col+1]);
+            boxSetting(location.last());
+        }
 
+
+
+    }else{
       //For downward right
 
-       for(int i = row+1,j = col+1; i <= 7 && j <= 7; i++,j++) {
-         if(game->collection[i][j]->getCheckersPieceColor() == team ) {
-             break;
-
-         }
-         else
-         {
-             location.append(game->collection[i][j]);
-             if(boxSetting(location.last())){
-                 break;
-             }
-         }
-      }
-
-       //For downward left
-
-        for(int i = row+1,j = col-1; i <= 7 && j >= 0; i++,j--) {
-          if(game->collection[i][j]->getCheckersPieceColor() == team ) {
-              break;
-
-          }
-          else
-          {
-              location.append(game->collection[i][j]);
-              if(boxSetting(location.last())){
-                  break;
-              }
-
-          }
-       }
+        if(col > 1 && row < 6 && game->collection[row+1][col-1]->getCheckersPieceColor() == "WHITE" && (!game->collection[row+2][col-2]->getHasCheckersPiece())) {
+            location.append(game->collection[row+2][col-2]);
+            boxSetting(location.last());
+        }
+        if(col < 6 && row < 6 && game->collection[row+1][col+1]->getCheckersPieceColor() == "WHITE" && (!game->collection[row+2][col+2]->getHasCheckersPiece())) {
+            location.append(game->collection[row+2][col+2]);
+            boxSetting(location.last());
+        }
+        if(col > 0 && row < 7 && (!game->collection[row+1][col-1]->getHasCheckersPiece())) {
+            location.append(game->collection[row+1][col-1]);
+            boxSetting(location.last());
+        }
+        if(col < 7 && row < 7 && (!game->collection[row+1][col+1]->getHasCheckersPiece())) {
+            location.append(game->collection[row+1][col+1]);
+            boxSetting(location.last());
+        }
+     }
 
 }
 
